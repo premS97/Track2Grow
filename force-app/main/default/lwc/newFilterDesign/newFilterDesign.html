@@ -1,0 +1,212 @@
+<template>
+	<div class="slds-p-left_small slds-p-right_small">
+		<div class="slds-modal__header">
+			<h1 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Create Filter</h1>
+         </div>
+		<lightning-card style="height:100%">
+			<div class="slds-grid slds-gutters">
+				<div class="slds-col slds-size_1-of-2">
+					<label>
+					<b>Object</b>
+					<abbr class="slds-required">*</abbr>
+				</label>
+					<div class={className}>
+						<lightning-input type="text" id="Object" value={objectVal} onkeyup={onHandleObjectSearch}
+							onchange={onHandleObjectSearch} class="allFieldCSS" placeholder="Search Object.."
+							role="text" 
+							style="width:99%;height:33px;border-color:#C8C8C8;border-width:thin;margin-top:-17px">
+						</lightning-input>
+						<!--Object Search-->
+						<template if:true={havingValue}>
+							<div id="listbox-id-2-venu" data-key="dropdownresult"
+								class="slds-show slds-dropdown_length-with-icon-7" role="listbox"
+								style="z-index:100;position:absolute;background-color:#FFFFFF;margin-top:17px">
+								<ul class="slds-listbox slds-listbox_vertical" role="presentation">
+									<template if:true={message}>
+										<p class="errorMsg">{message}</p>
+									</template>
+									<template for:each={recordsList} for:item="record">
+										<li id={record.Id} key={record.Id} onclick={onobjectselection}
+											role="presentation" class="slds-listbox__item">
+											<div data-key={record.Id} data-name={record}
+												class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+												role="option">
+												<span class="slds-media__body">
+											<span data-key={record.Id} data-name={record}
+												class="slds-listbox options-text slds-listbox__option-text_entity">{record}
+											</span>
+												</span>
+											</div>
+										</li>
+									</template>
+								</ul>
+							</div>
+
+						</template>
+						<!--Object Search End-->
+						<!--Object Error Message-->
+						<template if:true={requiredField1}>
+							<div class="slds-form-element__help errorMsg" style="margin-top: 20px;
+							">Select Object</div>
+						</template>
+					</div>
+				</div>
+				<!--Object Field-->
+				<div class="slds-col slds-size_1-of-2">
+
+					<label>
+					<b>{objVal}</b>
+					<abbr class="slds-required">*</abbr>
+				</label>
+					<div class={className1}>
+						<select class="slds-select" onchange={selectObjectFieldChange}>
+							<option value="">None</option>
+							<template for:each={objectFieldVal} for:item="selectObjectFieldItem">
+							<option  class="optionOnselect" key={selectObjectFieldItem} value={selectObjectFieldItem}>
+								{selectObjectFieldItem}
+							</option>
+						</template>
+						</select>
+						<!--Object Field Error Message-->
+						<template if:true={isObjFieldHistory}>
+							<div class="slds-m-horizontal_medium errorMsg">{objectFieldValMessage}</div>
+						</template>
+						<template if:true={requiredField2}>
+							<div class="slds-form-element__help errorMsg">Select Object Field Type.</div>
+						</template>
+					</div>
+				</div>
+			</div><br><br>
+			<!--Object Field End-->
+			<!--DualListBox 1-->
+			<lightning-dual-listbox name="fieldValue" label={objFieldVal} source-label="Available"
+				selected-label="Selected" field-level-help="Select values of the field you want to track the time of"
+				onchange={handleChange} options={options} value={defaultValues}  size=4
+				disable-reordering=true>
+			</lightning-dual-listbox>
+			<template if:true={requiredFieldVal}>
+				<div class="slds-m-horizontal_medium errorMsg">Select atleast one Object Field value</div>
+			</template>
+			<br><br>
+			<!--DualListBox 1-->
+			<lightning-dual-listbox name="recordValue" label={objRecordType} source-label="Available"
+				selected-label="Selected"
+				field-level-help="Select record types of the object you want to track the time of"
+				onchange={handleChange1} options={options1} value={defaultValues1} size=4
+				disable-reordering=true>
+			</lightning-dual-listbox><br><br>
+
+			<!--Business Hours and Date-->
+			<div class="slds-grid slds-gutters">
+				<div class="slds-col slds-size_1-of-2">
+					<label>
+					<b>Business Hours</b>
+					<abbr class="slds-required">*</abbr>
+				</label>
+					<div class={className3}>
+						<select class="slds-select" onchange={selectHourValueChange} required=""
+						style="width:99%;height:33px;">
+						<option value="">None</option>
+						<template for:each={hourNameLabel} for:item="hourName">
+							<option key={hourName.id} value={hourName.Name}>
+								{hourName.Name}
+							</option>
+						</template>
+					</select>
+						<template if:true={requiredField4}>
+							<div class="slds-form-element__help errorMsg">Select Business Hours Type.</div>
+						</template>
+					</div>
+				</div>
+				<div class="slds-col slds-size_1-of-2">
+					<label>
+					<b>Time Period</b>
+					<abbr class="slds-required">*</abbr>
+				</label>
+					<div class={className2}>
+						<select class="slds-select" onchange={selectPicklistValueChange} style="width:99%;height:33px;margin-left:1%;">
+						<option value="">None</option>
+						<option value="This Week">This Week</option>
+						<option value="Last Week">Last Week</option>
+						<option value="This Month">This Month</option>
+						<option value="Last Month">Last Month</option>
+						<option value="Last 3 Months">Last 3 Months</option>
+						<option value="Last 6 Months">Last 6 Months</option>
+						<option value="This Year">This Year</option>
+						<option value="Last Year">Last Year</option>
+						<option value="Custom Date">Custom date</option>
+					</select>
+						<template if:true={requiredField3}>
+							<div class="slds-form-element__help errorMsg">Select Time Period.</div>
+						</template>
+					</div>
+				</div>
+			</div>
+			<!--Custom Dates-->
+			<template if:true={picklistValueStr}>
+				<br><br>
+				<label>
+						<b>Custom Dates</b>
+						<abbr class="slds-required">*</abbr>
+					</label>
+				<div class={classCustomDate}>
+					<div class="slds-col slds-size_1-of-2" style="display:inline-block">
+						
+						<lightning-input type="date" name="input1"  label="Start Date"  onblur={datehandle2} onchange={datehandle}
+							style="width:101%;height:33px;border-color:#C8C8C8;font-weight:bold;margin-left:-2%">
+						</lightning-input>
+					</div>
+					<div class="slds-col slds-size_1-of-2" style="display:inline-block">
+						<lightning-input type="date" name="input2" label="End Date" onblur={datehandle2} disabled={disableBtn} onchange={datehandle1}
+							style="width:101%;height:33px;margin-left:1%;border-color:#C8C8C8;font-weight:bold">
+						</lightning-input>
+					</div>
+					<template if:true={requiredCustomDate}>
+						<br><br>
+						<div class="slds-form-element__help errorMsg">Select Custom Dates.</div>
+					</template>
+					<template if:true={isdateError}>
+						<br><br>
+						<div class="slds-text-color_error">{dateError}</div>
+					</template>
+					</div>
+			</template><br><br>
+			<!--Filter Save checkbox-->
+			<div class="slds-grid">
+				<lightning-input type="checkbox" onchange={onHandleCheckBox} label="Save the filter for future">
+				</lightning-input>
+				<lightning-helptext
+					content="This keeps the data already loaded so you dont have to wait when you check the same filter again">
+				</lightning-helptext>
+			</div><br>
+			<!--Filter Name Field-->
+			<template if:true={isFilterSave}>
+				<label>
+			<b>Filter Name</b>
+			<abbr class="slds-required">*</abbr>
+		</label>
+				<div class="slds-grid">
+					<div class="slds-col slds-size_2-of-2">
+						<div class={filterNameClass}>
+							<lightning-input type="text" onchange={onFilterName}
+								style="width:102%;border-color:#C8C8C8;border-width:thin;margin-left:-2%;margin-top:-15px"
+								class="allFieldCSS">
+							</lightning-input>
+							<template if:true={isfnError}>
+								<div class="slds-form-element__help errorMsg">{fnError}</div>
+							</template>
+							<template if:true={requiredField5}>
+								<div class="slds-form-element__help errorMsg">Please fill unique filter name</div>
+							</template>
+
+						</div>
+					</div>
+				</div>
+				<br>
+			</template>
+			 <div slot="footer" style="margin-left:-1%;">
+      				<lightning-button disabled={disableButton} variant="brand" label="Save" title="Primary action" onclick={handleClick}></lightning-button>
+    		</div><br>
+		</lightning-card>
+	</div>
+</template>

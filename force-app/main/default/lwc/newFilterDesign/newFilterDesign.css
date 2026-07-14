@@ -1,0 +1,76 @@
+.dropdown::before
+{
+    display: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+     border-top: none;
+}
+.errorMsg{
+    color:red;
+}
+.dropdown::after
+{
+    display: none;
+    border-left: none;
+       border-top: none;
+    border-right: none;
+    border-bottom: none;
+    pointer-events: none;
+}
+.dropdown1::before
+{
+    display: none;
+}
+.dropdown1::after
+{
+    display: none;
+}
+.classColor1
+{
+    border-color: red;
+    box-shadow: red;
+}
+.classColor2
+{
+    border-color: red;
+    box-shadow: red;
+}
+.classColor3
+{
+    border-color: red;
+    box-shadow: red;
+}
+.class1
+{
+    border-color: none;
+    box-shadow: none;
+}
+.class2
+{
+    border-color: none;
+    box-shadow: none;
+}
+.class3
+{
+    border-color: none;
+    box-shadow: none;
+}
+.spins::after {
+    position: absolute;
+    content: 'please save a filter';
+    width: 100%;
+    text-align: center;
+    top: calc(50% + 3em);
+    font-weight: bold;
+    color: #000;
+}
+.allFieldCSS{
+    border-radius: 4px;
+}
+.slds-has-error{
+    display: none;
+}
+.optionOnselect:hover{
+    background-color:#007EBF; 
+}

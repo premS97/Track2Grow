@@ -1,0 +1,340 @@
+<template>
+    <div class="slds-grid slds-gutters" style="height:100%;"> 
+        <div>
+            <template if:true={isLoad}>
+                <template if:true={spin}>
+                    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                        <div class="slds-modal__container slds-align_absolute-center">
+                            <div class="slds-modal__content slds-p-around_small loadSpin" id="modal-content-id-2">
+                                <span>
+                                    <img src={w3webSlider1} height="50" width="50">Please wait while we are Processing...
+                                </span> 
+                            </div>
+                        </div>
+                    </section>
+                    <div class="slds-backdrop slds-backdrop_open"></div>
+                </template> 
+            </template>
+        </div>
+        <template if:true={isLeftMenu}>
+                <lightning-layout-item size="2" large-device-size="2" medium-device-size="2" small-device-size="2" class="container">
+                <div class="LogoContainer slds-p-top_small">
+                        <img src={Logo}/>
+                    </div>
+                    <div class="slds-m-top_large mouseHover" onclick={onCreateFilterClick}>
+                        <div class="leftMenu" >
+                            <div class="slds-p-vertical_x-small slds-grid slds-grid_vertical-align-center select">
+                                <div class="slds-col">
+                                    <img src={createFilterIcon} height="20" width="20" class="slds-m-left_small"/>
+                                </div>
+                                <div class="slds-col slds-m-top_xxx-small  leftNavFont">
+                                    Create a filter
+                                </div>
+                                <div class="slds-col">
+                                    <lightning-icon class="iconStyle slds-float_right slds-m-right_x-small slds-m-top_x-small"  icon-name="utility:chevronright" size="x-small" ></lightning-icon>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-m-top_large mouseHover" onclick={onSavedFilterClick}>
+                        <template if:false={isDataFilter}>
+                            <div class="slds-m-top_large leftMenu" onclick={onSavedFilterClick}>
+                                <div class="slds-p-vertical_x-small slds-grid slds-grid_vertical-align-center select">
+                                    <div class="slds-col">
+                                        <img src={configurationIcon} height="20" width="20" class="slds-m-left_small"/>
+                                    </div>
+                                    <div class="slds-col slds-m-top_xxx-small leftNavFont">
+                                        Saved Filters
+                                    </div>
+                                    <div class="slds-col">
+                                        <lightning-icon class="iconStyle slds-float_right slds-m-right_x-small slds-m-top_x-small"  icon-name="utility:chevronright"  size="xx-small" ></lightning-icon>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                    <div class="slds-m-top_large mouseHover">
+                        <template if:true={isDataFilter}>
+                            <div class="savedFilter">
+                                <div class="slds-p-vertical_xxx-small slds-grid slds-grid_vertical-align-center select">
+                                    <div class="slds-col">
+                                        <img src={configurationIcon} height="20" width="20" class="slds-m-left_small"/>
+                                    </div>
+                                    <div class="slds-col slds-m-top_xxx-small leftNavFont">
+                                        Saved Filters
+                                    </div>
+                                    <div class="slds-col">
+                                        <lightning-icon class="iconStyle slds-float_right slds-m-right_x-small slds-m-top_x-small"  icon-name="utility:chevrondown"  size="xx-small" onclick={onHideSavedFilterClick} ></lightning-icon>
+                                    </div>
+                                </div>
+                                <div class="slds-p-bottom_small">
+                                        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right slds-p-vertical_small">
+                                            <Input type="search" class="slds-align_absolute-center searchBox" placeholder="Search..." value={searchVal} oninput={onSearchSaveFilter} onchange={onSearchSaveFilter}></Input>
+                                            <lightning-icon class="slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default searchIcon" icon-name="utility:search" size="x-small"></lightning-icon>
+                                        </div>
+                                    <template if:false={isManagePackage}>
+                                        <template if:false={isSearch}>
+                                            <div class="listData">
+                                                <template for:each={datas} for:item="dt" for:index="index">
+                                                        <div key={dt.Id} if:true={dt.isFilterSelect} class="slds-grid selectFilterListStyle">
+                                                            <div data-id={dt.Filter_Name__c} onclick={onFilterDetail} class="slds-col slds-m-left_large">{dt.Filter_Name__c}</div>
+                                                            <lightning-icon icon-name="utility:delete" size="xx-small" data-id={dt.Filter_Name__c} onclick={handleDeleteFilter} class="selectedDeleteIcon"></lightning-icon>
+                                                        </div>
+                                                        <div key={dt.Id} if:false={dt.isFilterSelect} class="slds-grid slds-border_bottom filterListStyle">
+                                                            <div data-id={dt.Filter_Name__c} onclick={onFilterDetail} class="slds-col  slds-m-left_large">{dt.Filter_Name__c}</div>
+                                                            <lightning-icon icon-name="utility:delete" size="xx-small" data-id={dt.Filter_Name__c} onclick={handleDeleteFilter} class="deleteIcon"></lightning-icon>
+                                                        </div>
+                                                </template>
+                                                <template if:true={isShowAllData}>
+                                                    <div key={dt.Id} class="slds-grid slds-align_absolute-center" onclick={onViewMore} >
+                                                        <div class="slds-m-top_xxx-small leftNavFont">
+                                                            View Less
+                                                        </div>
+                                                        <div>
+                                                            <lightning-icon class="iconStyle slds-p-horizontal_small slds-float_right slds-m-right_x-small slds-m-top_x-small"  icon-name="utility:chevronup"  size="xx-small"></lightning-icon>
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                            <template if:true={isViewMore}>
+                                                <template if:false={isShowAllData}>
+                                                    <div key={dt.Id} class="slds-grid slds-align_absolute-center" onclick={onViewMore} >
+                                                        <div class="slds-m-top_xxx-small leftNavFont">
+                                                            View More
+                                                        </div>
+                                                        <div>
+                                                            <lightning-icon class="iconStyle slds-p-horizontal_small slds-float_right slds-m-right_x-small slds-m-top_x-small"  icon-name="utility:chevrondown"  size="xx-small"></lightning-icon>
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                            </template>
+                                        </template>
+                                        <template if:true={isSearch}>
+                                            <template if:true={noDataFound}>
+                                                <div>{message}</div>
+                                            </template>
+                                            <template if:false={noDataFound}>
+                                                <div class="listData">
+                                                <template for:each={searchDatas} for:item="dt" for:index="index">
+                                                        
+                                                        <div key={dt.Id} class="slds-grid slds-border_bottom filterListStyle">
+                                                                <div data-id={dt.Filter_Name__c} onclick={onFilterDetail} class="slds-col"> {dt.Filter_Name__c}</div>
+                                                                <lightning-icon icon-name="utility:delete" size="xx-small" data-id={dt.Filter_Name__c} onclick={handleDeleteFilter} class="deleteIcon"></lightning-icon>
+                                                        </div>
+                                                </template>
+                                                </div>
+                                            </template>
+                                        </template>
+                                    </template>
+                                    <template if:true={isManagePackage}>
+                                        <template if:false={isSearch}>
+                                            <div class="listData">
+                                                <template for:each={datas} for:item="dt" for:index="index">
+                                                        <div key={dt.Id} if:true={dt.isFilterSelect} class="slds-grid selectFilterListStyle">
+                                                            <div data-id={dt.Track2Grow__Filter_Name__c} onclick={onFilterDetail} class="slds-col slds-m-left_large">{dt.Track2Grow__Filter_Name__c}</div>
+                                                            <lightning-icon icon-name="utility:delete" size="xx-small" data-id={dt.Track2Grow__Filter_Name__c} onclick={handleDeleteFilter} class="selectedDeleteIcon"></lightning-icon>
+                                                        </div>
+                                                        <div key={dt.Id} if:false={dt.isFilterSelect} class="slds-grid slds-border_bottom filterListStyle">
+                                                            <div data-id={dt.Track2Grow__Filter_Name__c} onclick={onFilterDetail} class="slds-col  slds-m-left_large">{dt.Track2Grow__Filter_Name__c}</div>
+                                                            <lightning-icon icon-name="utility:delete" size="xx-small" data-id={dt.Track2Grow__Filter_Name__c} onclick={handleDeleteFilter} class="deleteIcon"></lightning-icon>
+                                                        </div>
+                                                </template>
+                                                <template if:true={isShowAllData}>
+                                                    <div key={dt.Id} class="slds-grid slds-align_absolute-center" onclick={onViewMore} >
+                                                        <div class="slds-m-top_xxx-small leftNavFont">
+                                                            View Less
+                                                        </div>
+                                                        <div>
+                                                            <lightning-icon class="iconStyle slds-p-horizontal_small slds-float_right slds-m-right_x-small slds-m-top_x-small"  icon-name="utility:chevronup"  size="xx-small"></lightning-icon>
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                            <template if:true={isViewMore}>
+                                                <template if:false={isShowAllData}>
+                                                    <div key={dt.Id} class="slds-grid slds-align_absolute-center" onclick={onViewMore} >
+                                                        <div class="slds-m-top_xxx-small leftNavFont">
+                                                            View More
+                                                        </div>
+                                                        <div>
+                                                            <lightning-icon class="iconStyle slds-p-horizontal_small slds-float_right slds-m-right_x-small slds-m-top_x-small"  icon-name="utility:chevrondown"  size="xx-small"></lightning-icon>
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                            </template>
+                                        </template>
+                                        <template if:true={isSearch}>
+                                            <template if:true={noDataFound}>
+                                                <div>{message}</div>
+                                            </template>
+                                            <template if:false={noDataFound}>
+                                                <div class="listData">
+                                                <template for:each={searchDatas} for:item="dt" for:index="index">
+                                                        
+                                                        <div key={dt.Id} class="slds-grid slds-border_bottom filterListStyle">
+                                                                <div data-id={dt.Track2Grow__Filter_Name__c} onclick={onFilterDetail} class="slds-col"> {dt.Track2Grow__Filter_Name__c}</div>
+                                                                <lightning-icon icon-name="utility:delete" size="xx-small" data-id={dt.Track2Grow__Filter_Name__c} onclick={handleDeleteFilter} class="deleteIcon"></lightning-icon>
+                                                        </div>
+                                                </template>
+                                                </div>
+                                            </template>
+                                        </template>
+                                    </template>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                    <div class="slds-m-top_large mouseHover" onclick={onConfigClick}>
+                        <div class="leftMenu">
+                            <div class="slds-p-vertical_x-small slds-grid slds-grid_vertical-align-center select">
+                                <div class="slds-col">
+                                    <img src={configurationIcon} height="20" width="20" class="slds-m-left_small"/>
+                                </div>
+                                <div class="slds-col slds-m-top_xxx-small leftNavFont">
+                                    Config Page
+                                </div>
+                                <div class="slds-col">
+                                    <lightning-icon class="iconStyle slds-float_right slds-m-right_x-small slds-m-top_x-small"  icon-name="utility:chevronright"  size="xx-small" ></lightning-icon>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </lightning-layout-item>
+            <template if:false={isChartShow}>
+                <lightning-layout-item size="10" large-device-size="10" medium-device-size="10" small-device-size="10" class="detailContainer">
+                    <template if:true={isLoadMessage}>
+                        <div class="detail slds-align_absolute-center">
+                            <template if:false={isLoad}>
+                                <span>
+                                    <img src={w3webSlider1} height="50" width="50"><b>Please Create a new filter.</b>
+                                </span> 
+                            </template>
+                        </div>
+                    </template>
+                    <template if:false={isLoadMessage}>
+                        <div class="detail">
+                            <template if:true={isCreateFilterClick}>
+                                        <section role="dialog" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                                            <div class="slds-modal__container">
+                                                
+                                                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close">
+                                                        <lightning-icon icon-name="utility:close"
+                                                            alternative-text="close"
+                                                            variant="inverse"
+                                                            size="x-small" onclick={closeCreateFilters}></lightning-icon>
+                                                        <span class="slds-assistive-text">Close</span>
+                                                    </button>
+                                                <div class="slds-modal__content slds-p-around_x-small" id="modal-content-id-1">
+                                                            <c-new-filter-design onsaveclick={onCloseCreateFilter} onbatchcomplete={onBatchCmp}></c-new-filter-design>
+                                                    </div>
+                                            </div>
+                                        </section>
+                                        <div class="slds-backdrop slds-backdrop_open"></div>
+                            </template>
+                            <template if:true={isConfigClick}>
+                                        <section role="dialog" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                                            <div class="slds-modal__container">
+                                                
+                                                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close">
+                                                        <lightning-icon icon-name="utility:close"
+                                                            alternative-text="close"
+                                                            variant="inverse"
+                                                            size="x-small" onclick={closeConfig}></lightning-icon>
+                                                        <span class="slds-assistive-text">Close</span>
+                                                    </button>
+                                                <div class="slds-modal__content slds-p-around_x-small" id="modal-content-id-3">
+                                                            <c-configuration-Page onconfigsaved={closeConfig}></c-configuration-Page>
+                                                    </div>
+                                            </div>
+                                        </section>
+                                        <div class="slds-backdrop slds-backdrop_open"></div>
+                            </template>
+                        </div>
+                    </template>
+                </lightning-layout-item>
+            </template>
+        </template>
+        
+            <template if:true={isSelect}> 
+                <template if:false={isLeftMenu}>
+                    <lightning-layout-item size="2" large-device-size="2" medium-device-size="2" small-device-size="2" class="container">
+                         <div class="slds-no-flex">
+                                    <div class="LogoContainer slds-p-top_small">
+                                        <img src={Logo}/>
+                                    </div>
+                                    <header slot="title" class="slds-grid slds-page-header slds-page-header_record-home cardHead">
+                                        <div class="slds-col">{cardTitle}</div>
+                                            <div class="slds-col" onclick={detailBackClick}>
+                                                <img src={backIcon} height="20" width="20" class="backIcon"/>
+                                            </div>
+                                    </header>
+                                </div>
+                                <template if:true={isManagePackage} for:each={filterDetailVal} for:item="filterVal" >
+                                            <div class="slds-p-horizontal_medium slds-p-vertical_medium filterChartDetailDiv" key={filterVal.Id} style="font-size: 15px;">
+                                                <b>Object : </b>{filterVal.Track2Grow__SobjectType__c}<br />
+                                                <b>Field : </b>{filterVal.Track2Grow__SobjectFieldType__c}<br />
+                                                <b>Field Value : </b>{filterVal.Track2Grow__SobjectFieldValue__c}<br />
+                                                <b>Record Type : </b>{filterVal.Track2Grow__SobjectRecordType__c}<br />
+                                                <b>Business Hours : </b>{filterVal.Track2Grow__Businesshour__c}<br />
+                                                <b>Date : </b>{filterVal.Track2Grow__Dates__c}<br />
+                                                <div if:true={filterVal.Track2Grow__StartDate__c}>
+                                                    <b>Start Date : </b>{filterVal.Track2Grow__StartDate__c}<br />
+                                                    <b>End Date : </b>{filterVal.Track2Grow__EndDate__c}<br />
+                                                </div>
+                                            </div>
+                                </template>
+                                <template if:false={isManagePackage} for:each={filterDetailVal} for:item="filterVal" >
+                                    <div class="slds-p-horizontal_medium slds-p-vertical_medium filterChartDetailDiv" key={filterVal.Id} style="font-size: 15px;">
+                                        <b>Object : </b>{filterVal.SobjectType__c}<br />
+                                        <b>Field : </b>{filterVal.SobjectFieldType__c}<br />
+                                        <b>Field Value : </b>{filterVal.SobjectFieldValue__c}<br />
+                                        <b>Record Type : </b>{filterVal.SobjectRecordType__c}<br />
+                                        <b>Business Hours : </b>{filterVal.Businesshour__c}<br />
+                                        <b>Date : </b>{filterVal.Dates__c}<br />
+                                        <div if:true={filterVal.StartDate__c}>
+                                            <b>Start Date : </b>{filterVal.StartDate__c}<br />
+                                            <b>End Date : </b>{filterVal.EndDate__c}<br />
+                                        </div>
+                                    </div>
+                        </template>
+                    </lightning-layout-item>
+                </template>
+                <template if:true={isChartShow}>
+                    <lightning-layout-item size="10" large-device-size="10" medium-device-size="10" small-device-size="10" class="detailContainer" style="overflow:scroll;">
+                        
+    <lightning-tabset variant="scoped">
+         <lightning-tab label="Average Time">
+             <template if:true={clickedButtonLabelCheck}>
+                                         
+                                        <c-filter3-component  selected-filter-name={selectedFilterName} save-filter-id={saveFilterId} filter-detail-val={filterDetailVal} ></c-filter3-component>
+                                
+                                </template>
+        </lightning-tab>
+          <lightning-tab label="Owner Leader Board">
+             <template if:true={clickedButtonLabelCheck}>
+                                    <div class="slds-scrollable_x" >
+                                        <c-filter2-component is-manage-package={isManagePackage} selected-filter-name={selectedFilterName} save-filter-id={saveFilterId} filter-detail-val={filterDetailVal}></c-filter2-component>
+                                    </div>
+                                </template>
+        </lightning-tab>
+        <lightning-tab label="Owner Based On Average Time">
+              <template if:true={clickedButtonLabelCheck}>
+                  <c-Owner-Based-Average-Chart is-manage-package={isManagePackage} selected-filter-name={selectedFilterName} save-filter-id={saveFilterId} filter-detail-val={filterDetailVal}></c-Owner-Based-Average-Chart>
+              </template>              
+        </lightning-tab>
+         <lightning-tab label="Case Comparison">
+              <template if:true={clickedButtonLabelCheck}>
+                   <c-case-Comparison-Component is-manage-package={isManagePackage}  selected-filter-name={selectedFilterName} filter-detail-val={filterDetailVal}></c-case-Comparison-Component>
+              </template>              
+        </lightning-tab>
+    </lightning-tabset>
+                              
+                               
+                                <template if:false={clickedButtonLabelCheck}>
+                                    <lightning-spinner  class="spins" spinner-text="Loading Details..." style="margin-left:33.33% ;" alternative-text="Loading"></lightning-spinner>
+                                </template>
+                    </lightning-layout-item>
+            </template>
+        </template>
+    </div>
+</template>

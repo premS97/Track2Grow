@@ -1,0 +1,279 @@
+<template>
+    <div class="slds-grid">
+      <div class="slds-col slds-size_1-of-3">
+        <div>
+          <div style="height: 100%;">
+  
+            <lightning-card title="Filter" icon-name="custom:custom25">
+              <lightning-button label="Back" icon-name="utility:back" slot="actions" onclick={backClick}>
+              </lightning-button>
+              <div class="slds-p-horizontal--medium" data-id="divblock">
+                <div class="slds-form-element__control">
+                  <div class="slds-select_container dropdown">
+                    <div class={className}>
+                      <label>
+                        <abbr class="slds-required" title="required">*</abbr>
+                        <b>Object</b>
+                      </label>
+                      <div>
+                        <lightning-input type="text"
+                      value={objectVal} onkeyup={onHandleObjectSearch} onchange={onHandleObjectSearch}
+                      class="slds-combobox"
+                      id="combobox-id-2" aria-autocomplete="list" aria-controls="listbox-id-2" role="textbox"
+                      placeholder="Search Object...">
+                        </lightning-input>
+                      </div>
+<!-- Suggestion of object search -->
+                      <template if:true={havingValue}>
+                            
+                        <div id="listbox-id-2-venu" data-key="dropdownresult" class="slds-show slds-dropdown_length-with-icon-7 searchDrop" role="listbox">
+                            <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                <template if:true={message}>
+                                    <p class="slds-has-error">{message}</p>
+                                </template>
+                                <template for:each={recordsList} for:item="record">
+                                    <li id={record.Id} key={record.Id} onclick={onobjectselection}
+                                        role="presentation" class="slds-listbox__item">
+                                        <div data-key={record.Id} data-name={record}
+                                            class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+                                            role="option">
+                                            <span class="slds-media__body">
+                                                <span data-key={record.Id} data-name={record}
+                                                    class="slds-listbox options-text slds-listbox__option-text_entity">{record}
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </li>
+                                </template>
+                            </ul>
+                        </div>
+                    </template>  
+
+                      <template if:true={requiredField1}>
+                        <div class="slds-form-element__help">Select Object</div>
+                      </template>
+                    </div>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="slds-p-horizontal--medium">
+                <div class="slds-form-element__control">
+                  <div class="slds-select_container dropdown">
+                    <div class={className1}>
+                      <label class="slds-form-element__label">
+                        <abbr class="slds-required" title="required">*</abbr>
+                        <b>{objVal}</b>
+                      </label>
+                      <div class="slds-form-element__control">
+                        <div class="slds-select_container">
+                          <select class="slds-select" onchange={selectObjectFieldChange} required="">
+                            <option value="">---None---</option>
+                            <template for:each={objectFieldVal} for:item="selectObjectFieldItem">
+                              <option key={selectObjectFieldItem} value={selectObjectFieldItem}>
+                                {selectObjectFieldItem}
+                              </option>
+                            </template>
+                          </select>
+                        </div>
+                      </div>
+                      <template if:true={requiredField2}>
+                        <div class="slds-form-element__help">Select Object Field Type.</div>
+                      </template>
+                    </div>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="slds-p-horizontal--medium slds-p-top_x-small">
+                <div class="slds-form-element__control">
+                  <div class="slds-select_container dropdown1">
+                    <lightning-dual-listbox name="fieldValue" label={objFieldVal} source-label="Available"
+                      selected-label="Selected"
+                      field-level-help="Select values of the field you want to track the time of" options={options}
+                      onchange={handleChange} value={defaultValues} required='true' >
+                    </lightning-dual-listbox>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="slds-p-horizontal--medium slds-p-top_x-small">
+                <div class="slds-form-element__control">
+                  <div class="slds-select_container dropdown1">
+                    <lightning-dual-listbox name="recordValue" label={objRecordType} source-label="Available"
+                      selected-label="Selected"
+                      field-level-help="Select record types of the object you want to track the time of"
+                      options={options1} value={defaultValues1} onchange={handleChange1}>
+                    </lightning-dual-listbox>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="slds-p-horizontal--medium slds-p-top_x-small" data-id="divblock">
+                <div class="slds-form-element__control">
+                  <div class="slds-select_container dropdown">
+                    <div class={className3}>
+                      <label class="slds-form-element__label">
+                        <abbr class="slds-required" title="required">*</abbr>
+                        <b>Business Hours</b>
+                      </label>
+                      <div class="slds-form-element__control">
+                        <div class="slds-select_container">
+                          <select aria-describedby="error-01" class="slds-select" onchange={selectHourValueChange}
+                            required>
+                            <option value="">---None---</option>
+                            <template for:each={hourNameLabel} for:item="hourName">
+                              <option key={hourName.id} value={hourName.Name}>
+                                {hourName.Name}
+                              </option>
+                            </template>
+                          </select>
+                        </div>
+                      </div>
+                      <template if:true={requiredField4}>
+                        <div class="slds-form-element__help">Select Business Hour Type.</div>
+                      </template>
+                    </div>
+                  </div>
+                </div>
+              </div>
+  
+              <div class="slds-p-horizontal--medium slds-p-top_x-small">
+                <div class="slds-form-element__control">
+                  <div class="slds-select_container dropdown1">
+                    <div class={className2}>
+                      <label class="slds-form-element__label">
+                        <abbr class="slds-required" title="required">*</abbr>
+                        <b>Dates</b>
+                      </label>
+                      <div class="slds-form-element__control">
+                        <div class="slds-select_container">
+                          <select class="slds-select" onchange={selectPicklistValueChange}>
+                            <option value="">---None---</option>
+                            <template for:each={picklistStr} for:item="selectPicklistItem">
+                              <option key={selectPicklistItem} value={selectPicklistItem}>
+                                {selectPicklistItem}
+                              </option>
+                            </template>
+                          </select>
+                        </div>
+                      </div>
+                      <template if:true={requiredField3}>
+                        <div class="slds-form-element__help">Select Date Type.</div>
+                      </template>
+                    </div>
+                  </div>
+                </div>
+              </div>
+  
+              <template if:true={picklistValueStr}>
+                <div class="slds-p-horizontal--medium slds-p-top_small">
+                  <label class="slds-form-element__label">
+                    <b>Custom Date Type</b></label>
+                  <div class="slds-form-element__control">
+                    <div class="slds-select_container">
+                      <lightning-input type="date" name="input1" label="Start Date" onchange={datehandle} required>
+                      </lightning-input>
+                      <lightning-input type="date" name="input2" label="End Date" onchange={datehandle1} required>
+                      </lightning-input>
+                    </div>
+                  </div>
+                </div>
+              </template>
+  
+              <div class="slds-p-horizontal--medium slds-p-top_small">
+                <div class="slds-grid slds-gutters slds-p-left_small">
+                  <lightning-input type="checkbox" onchange={onHandleCheckBox} label="Save the filter for future">
+                  </lightning-input>
+                  <lightning-helptext
+                    content="This keeps the data already loaded so you dont have to wait when you check the same filter again">
+                  </lightning-helptext>
+                </div>
+              </div>
+  
+              <template if:true={isFilterSave}>
+                <div class="slds-p-horizontal--medium" data-id="divblock">
+                  <div class="slds-form-element__control">
+                    <div class={filterNameClass}>
+                      <label class="slds-form-element__label">
+                        <abbr class="slds-required" title="required">*</abbr>
+                        <b>Filter Name</b>
+                      </label>
+                      <div class="slds-form-element__control">
+  
+                        <lightning-input type="text" onchange={onFilterName}>
+                        </lightning-input>
+  
+                      </div>
+                      <template if:true={requiredField5}>
+                        <div class="slds-form-element__help">Please fill unique filter name</div>
+                      </template>
+                    </div>
+                  </div>
+                </div>
+              </template>
+              <div>
+                <div class="slds-grid slds-gutters">
+                  <div class="slds-col">
+                    <div class="slds-p-horizontal--medium slds-p-top_small">
+                      <div class="slds-form-element__control">
+                        <div class="slds-form-element__control">
+                          <div class="slds-select_container dropdown1"></div>
+                          <lightning-button variant="brand" label="Save" title="Primary action" onclick={handleClick}
+                            class="slds-m-left_x-small"></lightning-button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div style="float:right;padding-right:6%;padding-top:11px">
+                    <div class="slds-col">
+                      <div class="slds-form-element">
+                        <label class="slds-checkbox_toggle slds-grid">
+                          <span class="slds-form-element__label slds-m-bottom_none">History Switch</span>
+                          <input type="checkbox" name="checkbox-toggle-17" value="checkbox-toggle-17"
+                            aria-describedby="checkbox-toggle-17" onchange={toggleHandle} />
+                          <span id="checkbox-toggle-17" class="slds-checkbox_faux_container" aria-live="assertive">
+                            <span class="slds-checkbox_faux"></span>
+                            <span class="slds-checkbox_on">Enabled</span>
+                            <span class="slds-checkbox_off">Disabled</span>
+                          </span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </lightning-card>
+  
+          </div>
+        </div>
+      </div>
+      <div class="slds-col slds-size_2-of-3">
+        <template if:true={clickedButtonLabelCheck}>
+          <lightning-card title="Tracking Based On Average Time" icon-name="utility:chart">
+            <c-gen_barchart chart-config={chartConfiguration} checkif-record-is-rendered={checkRendredChild}>
+            </c-gen_barchart>
+            <div class="pick">
+              <select class="slds-select" onchange={selectOptionChanveValue}>
+                <option value="">---None---</option>
+                <template for:each={selectTargetValues.data} for:item="selectOptItem">
+                  <option key={selectOptItem.custFldvalue} value={selectOptItem.custFldvalue}>
+                    {selectOptItem.custFldlabel}
+                  </option>
+                </template>
+              </select>
+            </div>
+            <lightning-card title="Average Time Spent On Owner Leader Board Per Status" icon-name="utility:chart">
+              <div class='slds-box slds-theme_default'>
+                <canvas class="pie-chart" lwc:dom="manual"></canvas>
+              </div>
+            </lightning-card>
+  
+          </lightning-card>
+        </template>
+        <template if:false={clickedButtonLabelCheck}>
+          <lightning-spinner class="spins" style="margin-left:33.33% ;" alternative-text="Loading"></lightning-spinner>
+        </template>
+      </div>
+    </div>
+  </template>

@@ -1,0 +1,132 @@
+<template>
+	<lightning-card>
+		<div class="slds-card__header" style="text-align:center;font-weight:bold;font-size:25px">
+			<h1>Configuration Page</h1>
+		</div>
+		<div style="margin:10px">
+			<!-- style="background-color:#ccc"> -->
+			<div class="slds-grid slds-gutters">
+				<div class="slds-col slds-size_1-of-2">
+					<label>
+                        <b>Job Name</b>
+                        <abbr class="slds-required">*</abbr>
+				    </label>
+				</div>
+				<div class="slds-col slds-size_1-of-2">
+					<lightning-input type="text" id="Object" value={jobName} onchange={onHandleJobNameChange}
+						placeholder="" role="text"
+						style="width:99%;height:33px;border-color:#C8C8C8;border-width:thin;margin-top:-17px">
+					</lightning-input>
+				</div>
+			</div>
+			<template if:true={requireJobName}>
+				<div class="slds-form-element__help errorMsg">Please enter Job Name</div>
+			</template>
+			<br/><br/>
+			<div class="slds-grid slds-gutters">
+				<div class="slds-col slds-size_1-of-3">
+					<label>
+                        <b>Schedule Apex Execution</b>
+                        <abbr class="slds-required">*</abbr>
+				    </label>
+				</div>
+				<div class="slds-col slds-size_2-of-3">
+					<div class="slds-grid slds-gutters">
+						<div class="slds-col slds-size_1-of-4">
+							<lightning-radio-group name="radioGroup" label="Frequency" options={frqOption}
+								onchange={onHandleFrequencyChange} value='Weekly' type="radio"></lightning-radio-group>
+						</div>
+						<template if:true={isWeekely}>
+							<div class="slds-col slds-size_3-of-4">
+								<lightning-checkbox-group name="Recurs every week on" label="Recurs every week on"
+									options={weekDay} value={value} onchange={handleWeekChange}>
+								</lightning-checkbox-group>
+								<br/>
+								<template if:true={requireToSelectWeekDays}>
+								<div class="slds-form-element__help errorMsg">Please Select atleast one day of week to schedule.</div>
+							</template>
+							</div>
+						</template>
+						<template if:false={isWeekely}>
+								<div class="slds-col slds-size_3-of-4">
+                               		<input type="radio" name="Radiobutton" value="day" style="margin-right:5px;margin-top:2px "  onchange={onSelectMonthlyPriority}> On day
+                               		<select class="slds-select" disabled={isDay} style="width:120px;margin-right:5px;margin-left:5px;" onchange={onSelectDay}>
+										<template for:each={days} for:item="day">
+											<option key={day} value={day}>
+												{day}
+											</option>
+										</template>
+									</select> of every Month.<br/><br/>
+                            		<input type="radio" name="Radiobutton" value="ordinal" style="margin-right:5px;margin-top:2px " onchange={onSelectMonthlyPriority}> On 
+									<select disabled={isOrdinal} class="slds-select" style="width:80px;margin-right:5px;margin-left:5px;" onchange={onSelectOrdinal}>
+										<template for:each={getOrdinalNumbers} for:item="ordinalNumber">
+											<option key={ordinalNumber} value={ordinalNumber}>
+												{ordinalNumber}
+											</option>
+										</template>
+									</select>
+									<select disabled={isOrdinal} class="slds-select" style="width:120px" onchange={onSelectWeek}>
+										<template for:each={weekDay} for:item="day">
+											<option key={day} value={day.label}>
+												{day.label}
+											</option>
+										</template>
+									</select> of every Month.
+									<br/>
+									<template if:true={requireMonthlyPriority}>
+										<div class="slds-form-element__help errorMsg">Select at least one option</div>
+									</template>
+								</div>
+						</template>	
+					
+					</div>
+					<template if:true={requireToSelectFrequency}>
+								<div class="slds-form-element__help errorMsg">Please Select any one frequency.</div>
+							</template>
+					<div class="slds-grid slds-gutters">
+						<div class="slds-col slds-size_2-of-4" style="margin-top:20px;">Start</div>
+						<div class="slds-col slds-size_2-of-4">
+							<lightning-input type="date" onchange={onStartDateChange} name="input1"></lightning-input>
+						</div>
+						<!-- <div class="slds-col slds-size_1-of-4" style="margin-top:20px">Start</div> -->
+					</div>
+					<template if:true={requireStartDate}>
+						<div class="slds-form-element__help errorMsg">Select Start Date.</div>
+					</template>
+					<div class="slds-grid slds-gutters">
+						<div class="slds-col slds-size_2-of-4" style="margin-top:20px;">End</div>
+						<div class="slds-col slds-size_2-of-4">
+							<lightning-input type="date" onchange={onEndDateChange} name="input1"></lightning-input>
+						</div>
+						<!-- <div class="slds-col slds-size_1-of-4" style="margin-top:20px">End</div> -->
+					</div>
+					<template if:true={requireEndDate}>
+						<div class="slds-form-element__help errorMsg">Select End Date.</div>
+					</template>
+					<div class="slds-grid slds-gutters">
+						<div class="slds-col slds-size_2-of-4" style="margin-top:20px;">Preferred Start Time
+						</div>
+						<div class="slds-col slds-size_2-of-4" style="margin-top:20px;">
+							<select class="slds-select" onchange={selectPreferredTime}>
+							<option value="">None</option>
+							<template for:each={preferredStartTime} for:item="time">
+							<option  class="optionOnselect" key={time} value={time}>
+								{time}
+							</option>
+						</template>
+						</select>
+						</div>
+					</div>
+					<template if:true={requirePreferredTime}>
+						<div class="slds-form-element__help errorMsg">Select Preferred time.</div>
+					</template>
+				</div>
+			</div>
+
+		</div>
+		<div slot="footer" style="margin-left:-1%;">
+			<lightning-button disabled={disableButton} variant="brand" label="Save" title="Primary action"
+				onclick={onSaveClick}></lightning-button>
+		</div><br>
+	</lightning-card>
+</template>

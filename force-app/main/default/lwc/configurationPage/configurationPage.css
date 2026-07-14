@@ -1,0 +1,6 @@
+.slds-form-element__control{
+display: none;
+}
+.errorMsg{
+    color:red;
+}

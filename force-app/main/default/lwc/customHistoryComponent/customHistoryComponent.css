@@ -1,0 +1,24 @@
+.heading{
+	padding: 2%;
+}
+.search{
+	padding-left: 1%;
+	padding-right: 1%;
+}
+
+td{	
+	padding-top: 5%;
+	overflow:hidden;
+}
+
+table { 
+  table-layout: fixed;
+}
+
+.main{
+	background-color: white;
+}
+
+.show{
+	padding-left: 60%;
+}

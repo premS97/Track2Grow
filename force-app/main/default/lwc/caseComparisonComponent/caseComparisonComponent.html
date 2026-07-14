@@ -1,0 +1,67 @@
+<template>
+	<lightning-card>
+		<div class="slds-grid slds-gutters" style="margin: 10px;">
+			<div class="slds-col slds-size_3-of-12">
+				<label>
+					<b>Select User 1</b>
+					<abbr class="slds-required">*</abbr>
+				</label>
+				<select class="slds-select" onchange={selectObjectFieldChange}>
+						<option value="">None</option>
+						<template for:each={user1} for:item="user">
+							<option  class="optionOnselect" key={user} data-id={user} value={user}>
+								{user}
+							</option>
+						</template>
+					</select>
+			</div>
+			<div class="slds-col slds-size_3-of-12">
+				<label>
+					<b>Select User 2</b>
+					<abbr class="slds-required">*</abbr>
+				</label>
+				<select class="slds-select" onchange={selectObjectFieldChange1} disabled={isUser2} >
+					<option value="">None</option>
+					<template for:each={user2} for:item="user">
+						<option  class="optionOnselect" key={user} data-id={user} value={user}>
+							{user}
+						</option>
+					</template>
+				</select>
+			</div>
+			<div class="slds-col slds-size_2-of-12">
+				<lightning-button variant="brand" label="Compare Case" title="Non-primary action" onclick={chartConfig}
+					class="slds-m-left_xx-small "></lightning-button>
+			</div>
+			<div class="slds-col slds-size_4-of-12"></div>
+		</div>
+	</lightning-card>
+	<template if:true={chartLoaded}>
+		<lightning-card>
+			<div class="slds-grid slds-gutters">
+				<div class="slds-col slds-size_9-of-12">
+					<div class="slds-grid">
+						<lightning-icon icon-name="utility:chart" size="xx-large" style="margin-right:2px">
+						</lightning-icon>
+						<b><h1 style="font-size:16px">{graphTitle}</h1></b>
+					</div>
+				</div>
+				<div class="slds-col slds-size_3-of-12 slds-float_right">
+					<div class="slds-grid slds-float_right" style="margin-right:10px;">
+						<div style="font-size:17px"><b>Filter:-</b><i>{selectedFilterName}</i></div>
+
+					</div>
+
+				</div>
+			</div>
+
+		</lightning-card>
+		<div class="slds-p-around_small slds-grid slds-grid--vertical-align-center slds-grid--align-center">
+			<canvas class="barChart" lwc:dom="manual"></canvas>
+			<div if:false={isChartJsInitialized} class="slds-col--padded slds-size--1-of-1">
+				<lightning-spinner alternative-text="Loading" size="medium" variant="base"></lightning-spinner>
+			</div>
+		</div>
+		<!-- </lightning-card> -->
+	</template>
+</template>

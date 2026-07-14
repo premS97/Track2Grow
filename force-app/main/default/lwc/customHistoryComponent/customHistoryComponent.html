@@ -1,0 +1,77 @@
+<template>
+<template if:true={result}>
+    <div class="slds-box main">
+        <div class="heading" style="display:flex">
+        <div>
+        <lightning-card title="View History Data" icon-name="custom:custom18" ></lightning-card>
+        </div>
+        <div class="show"><b>Show Entries</b>
+        <select class="slds-select" name = "optionSelect" onchange={changeHandler} >
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="5">5</option>
+        </select></div>
+        </div>
+        <table border="0" align="center">
+            <tr> </tr>
+            <tr >
+                <th class= "search"><lightning-input type="date" label="Date/Time" onchange={handleChange} value={searchVal1}></lightning-input></th>
+                <th class= "search"><lightning-input type="search" label="Field" onchange={handleChange} value={searchVal2}></lightning-input></th>
+                <th class= "search"><lightning-input type="search" label="User" onchange={handleChange} value={searchVal3}></lightning-input></th>
+                <th class= "search"><lightning-input type="search" label="Original Value" onchange={handleChange} value={searchVal4}></lightning-input></th>
+                <th class= "search"><lightning-input type="search" label="New Value" onchange={handleChange} value={searchVal5}></lightning-input></th>
+            </tr>
+            <!-- <tr>
+                <th>Date/Time</th>
+                <th>Field</th>
+                <th>User</th>
+                <th>Original Value</th>
+                <th>New Value</th>
+            </tr> -->
+            
+                <template for:each ={result} for:item="rec" for:index="i">
+                <tr key = {rec.Id}>
+                <td>
+                <div  key = {rec.Id}  style="height: 100px;width: 100px;">
+                   <option data-id={rec.Id} >{rec.timestamp}</option>
+                </div>
+                </td>
+                <td><div  key = {rec.Id}  style="height: 100px;width: 100px;">
+                   <option data-id={rec.Id} >{rec.field}</option>
+                    </div>
+                    </td>
+                    <td ><div  key = {rec.Id}  style="height: 100px;width: 100px;">
+                   <option data-id={rec.Id}>{rec.user}</option>
+                    </div>
+                    </td>
+                    <td><div  key = {rec.id}  style="height: 100px;width: 100px;">
+                   <option data-id={rec.Id} >{rec.oldVal}</option>
+                    </div>
+                    </td>
+                    <td><div  key = {rec.id}  style="height: 100px;width: 100px;">
+                   <option data-id={rec.Id} >{rec.newVal}</option>
+                    </div>
+                    </td>
+                    </tr>
+                </template>
+            
+        </table>
+        <div align="center">
+                    <lightning-button 
+                        label="Previous" 
+                        icon-name="utility:chevronleft" 
+                        onclick={previousHandler}>
+                    </lightning-button>
+                &nbsp;&nbsp;&nbsp;
+                    Page {page} of {totalPage}
+                &nbsp;&nbsp;&nbsp;
+                    <lightning-button 
+                        label="Next" 
+                        icon-name="utility:chevronright" 
+                        icon-position="right"
+                        onclick={nextHandler}>
+                    </lightning-button>
+        </div>
+        </div>
+    </template>
+</template>
