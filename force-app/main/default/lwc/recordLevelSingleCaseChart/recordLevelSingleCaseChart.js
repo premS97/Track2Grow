@@ -51,6 +51,8 @@ connectedCallback() {
             }
 
         var ctx = this.template.querySelector(".pie-chart").getContext('2d');
+        const t2gPalette = ['#6D5BF7', '#22C55E', '#F59E0B', '#EC4899', '#06B6D4', '#F43F5E', '#84CC16', '#A855F7', '#3B82F6', '#F97316'];
+        const t2gColors = labell.map((_, i) => t2gPalette[i % t2gPalette.length]);
         this.mychart = new Chart(ctx, {
             type: 'bar',
             data: {
@@ -60,19 +62,34 @@ connectedCallback() {
 
                     label: this.cardTitle,
                     data: count,
-                    backgroundColor: "green"
+                    backgroundColor: t2gColors,
+                    hoverBackgroundColor: t2gColors,
+                    borderRadius: 8,
+                    borderSkipped: false,
+                    maxBarThickness: 46
                 }],
             },
             options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: '#1c1b2e',
+                        padding: 10,
+                        cornerRadius: 8
+                    }
+                },
                 scales: {
                     x: {
+                        grid: { display: false },
                         ticks: {
                             // For a category axis, the val is the index so the lookup via getLabelForValue is needed
                             callback: function (val, index) {
                                 // Hide every 2nd tick label
                                 return index % 2 === 0 ? this.newArrayLabel(val) : '';
                             },
-                            color: 'red',
+                            color: '#746E94',
                         }
                     },
                     yAxes: [{
@@ -80,7 +97,11 @@ connectedCallback() {
                         ticks: {
                             beginAtZero: true
                         }
-                    }]
+                    }],
+                    y: {
+                        grid: { color: 'rgba(116, 110, 148, 0.12)' },
+                        ticks: { color: '#746E94' }
+                    }
 
                 }
             },

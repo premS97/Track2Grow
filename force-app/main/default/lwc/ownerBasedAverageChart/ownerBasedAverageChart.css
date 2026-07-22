@@ -1,0 +1,46 @@
+:host {
+    --t2g-accent: #6d5bf7;
+    --t2g-accent-2: #8b5cf6;
+    --t2g-text: #1c1b2e;
+    --t2g-text-soft: #746e94;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+}
+
+lightning-card {
+    --slds-c-card-radius-border: 16px;
+    --sds-c-card-shadow: 0 8px 24px rgba(30, 20, 70, 0.08);
+    margin-bottom: 14px;
+}
+
+lightning-combobox,
+lightning-input {
+    --slds-c-input-radius-border: 10px;
+}
+
+lightning-button[variant="brand"] {
+    --slds-c-button-brand-color-background: var(--t2g-accent);
+    --slds-c-button-brand-color-background-hover: var(--t2g-accent-2);
+    --slds-c-button-brand-color-border: var(--t2g-accent);
+    --slds-c-button-radius-border: 999px;
+}
+
+.t2g-chart-card {
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(30, 20, 70, 0.08);
+    padding: 20px;
+    min-height: 380px;
+}
+.t2g-chart-card canvas {
+    max-height: 360px;
+}
+
+@media (max-width: 768px) {
+    .t2g-chart-card {
+        min-height: 280px;
+        padding: 12px;
+    }
+    .t2g-chart-card canvas {
+        max-height: 260px;
+    }
+}

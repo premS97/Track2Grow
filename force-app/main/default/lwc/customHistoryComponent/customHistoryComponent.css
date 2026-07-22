@@ -1,24 +1,94 @@
-.heading{
-	padding: 2%;
-}
-.search{
-	padding-left: 1%;
-	padding-right: 1%;
-}
-
-td{	
-	padding-top: 5%;
-	overflow:hidden;
+:host {
+    --t2g-accent: #6d5bf7;
+    --t2g-accent-2: #8b5cf6;
+    --t2g-text: #1c1b2e;
+    --t2g-text-soft: #746e94;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
 }
 
-table { 
-  table-layout: fixed;
+.main {
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(30, 20, 70, 0.08);
+    border: none;
+    padding: 8px 16px 20px 16px;
 }
 
-.main{
-	background-color: white;
+.heading {
+    padding: 2% 0;
+    align-items: center;
+    border-bottom: 1px solid #eeecfa;
+    margin-bottom: 10px;
 }
 
-.show{
-	padding-left: 60%;
+.show {
+    padding-left: 20px;
+    color: var(--t2g-text-soft);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.show select {
+    border-radius: 8px;
+    border: 1.5px solid #e3e1f7;
+    padding: 4px 8px;
+}
+
+.search {
+    padding-left: 1%;
+    padding-right: 1%;
+    background: #fbfaff;
+}
+
+table {
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 6px;
+}
+
+th {
+    text-align: left;
+    color: var(--t2g-text-soft);
+    font-weight: 600;
+    font-size: 12.5px;
+}
+
+td {
+    padding-top: 5%;
+    overflow: hidden;
+    background: #fbfaff;
+    border-top: 1px solid #eeecfa;
+    border-bottom: 1px solid #eeecfa;
+}
+td:first-child {
+    border-left: 3px solid var(--t2g-accent);
+    border-radius: 8px 0 0 8px;
+}
+td:last-child {
+    border-radius: 0 8px 8px 0;
+}
+
+tr:hover td {
+    background: var(--t2g-accent-soft, rgba(109, 91, 247, 0.06));
+}
+
+lightning-button {
+    --slds-c-button-radius-border: 999px;
+    --slds-c-button-color-border: #e3e1f7;
+}
+
+@media (max-width: 768px) {
+    .heading {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .show {
+        padding-left: 0;
+        margin-top: 8px;
+    }
+    table {
+        display: block;
+        overflow-x: auto;
+    }
 }

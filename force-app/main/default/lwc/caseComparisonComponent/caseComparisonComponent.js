@@ -72,26 +72,55 @@ export default class CaseComparisonComponent extends LightningElement {
                         datasets: [
                             {
                                 label: this.objectField,
-                                backgroundColor: "green",
+                                backgroundColor: "#6D5BF7",
+                                hoverBackgroundColor: "#5847d6",
+                                borderRadius: 8,
+                                borderSkipped: false,
+                                maxBarThickness: 40,
                                 data: this.chartUser1,
                             },
                             {
                                 label: this.objectField1,
-                                backgroundColor: "orange",
+                                backgroundColor: "#EC4899",
+                                hoverBackgroundColor: "#db2777",
+                                borderRadius: 8,
+                                borderSkipped: false,
+                                maxBarThickness: 40,
                                 data: this.chartUser2,
                             },
                         ],
                         labels: this.chartLabel,
                     },
                     options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                                labels: { color: '#1c1b2e', font: { weight: '600' } }
+                            },
+                            tooltip: {
+                                backgroundColor: '#1c1b2e',
+                                padding: 10,
+                                cornerRadius: 8
+                            }
+                        },
                         scales: {
-
+                            x: {
+                                grid: { display: false },
+                                ticks: { color: '#746E94' }
+                            },
                             yAxes: [{
                                 display: true,
                                 ticks: {
                                     beginAtZero: true
                                 }
-                            }]
+                            }],
+                            y: {
+                                grid: { color: 'rgba(116, 110, 148, 0.12)' },
+                                ticks: { color: '#746E94' },
+                                beginAtZero: true
+                            }
                         }
                     },
                 });
