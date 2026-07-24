@@ -6,7 +6,7 @@
     }
   ],
   "name": "Track2Grow",
-  "namespace": "",
+  "namespace": "T2G",
   "sfdcLoginUrl": "https://login.salesforce.com",
   "sourceApiVersion": "67.0"
 }
