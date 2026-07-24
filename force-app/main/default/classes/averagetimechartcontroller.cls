@@ -430,7 +430,7 @@ public with sharing class averagetimechartcontroller
                 for(CaseHistory ch : c.Histories){
                     if(ch.field == 'Status'){
                         if(firsttime){
-                            decimal timee = BusinessHours.diff('01mgK000007MvurQAC',c.CreatedDate,ch.CreatedDate);
+                            decimal timee = BusinessHours.diff(System.Label.Default_Business_Hours_Id,c.CreatedDate,ch.CreatedDate);
                             timee = (timee/1000)/60;
                             timee = timee.setScale(2);
                             if(!pickvalmap.containskey(string.valueof(ch.OldValue))){
@@ -449,7 +449,7 @@ public with sharing class averagetimechartcontroller
                         }
                         else{
                             
-                            decimal timee = BusinessHours.diff('01mgK000007MvurQAC',recentRecTime,ch.CreatedDate);
+                            decimal timee = BusinessHours.diff(System.Label.Default_Business_Hours_Id,recentRecTime,ch.CreatedDate);
                             timee = (timee/1000)/60;
                             timee = timee.setScale(2);
                             if(!pickvalmap.containskey(string.valueof(ch.OldValue))){
